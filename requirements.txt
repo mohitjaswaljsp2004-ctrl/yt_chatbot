@@ -1,0 +1,9 @@
+streamlit
+yt-dlp
+langchain
+langchain-community
+langchain-core
+langchain-groq
+faiss-cpu
+sentence-transformers
+huggingface-hub
