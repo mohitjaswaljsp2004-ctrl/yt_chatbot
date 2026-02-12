@@ -4,7 +4,6 @@ langchain
 langchain-community
 langchain-core
 langchain-groq
-
+faiss-cpu==1.7.4
 sentence-transformers
 huggingface-hub
-langchain.text_splitter
