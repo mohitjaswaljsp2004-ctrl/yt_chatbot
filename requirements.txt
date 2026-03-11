@@ -7,3 +7,5 @@ langchain-groq
 faiss-cpu==1.13.2
 sentence-transformers
 huggingface-hub
+RecursiveCharacterTextSplitter
+
