@@ -16,7 +16,7 @@ from langchain_groq import ChatGroq
 # ---------------- LOAD ENV ---------------- #
 
 load_dotenv()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+# GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # ---------------- STREAMLIT CONFIG ---------------- #
 
@@ -251,10 +251,12 @@ Detailed Answer:
                 "question": question
             })
 
+           
+
             llm = ChatGroq(
                 model="llama-3.1-8b-instant",
-                temperature=0.1,
-                api_key=GROQ_API_KEY
+                temperature=0.3,
+                api_key=st.secrets["GROQ_API_KEY"]
             )
 
             with st.spinner("Thinking..."):
@@ -263,3 +265,4 @@ Detailed Answer:
 
             st.success("✅ Answer")
             st.write(answer.content)
+
