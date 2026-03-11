@@ -6,7 +6,7 @@ from datetime import datetime
 from yt_dlp import YoutubeDL
 from dotenv import load_dotenv
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_core.prompts import PromptTemplate
@@ -16,7 +16,7 @@ from langchain_groq import ChatGroq
 # ---------------- LOAD ENV ---------------- #
 
 load_dotenv()
-# GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # ---------------- STREAMLIT CONFIG ---------------- #
 
@@ -40,7 +40,14 @@ def save_memory(memory):
         json.dump(memory, f, indent=4)
 
 
+def delete_video_from_memory(video_url):
+    memory = load_memory()
+    memory = [video for video in memory if video["url"] != video_url]
+    save_memory(memory)
+
+
 def add_video_to_memory(video_url, transcript):
+
     memory = load_memory()
 
     for video in memory:
@@ -116,6 +123,11 @@ st.sidebar.header("📚 Previously Searched Videos")
 
 memory = load_memory()
 
+# Clear all history
+if st.sidebar.button("🧹 Clear All History"):
+    save_memory([])
+    st.rerun()
+
 
 def get_video_info(url):
     try:
@@ -142,8 +154,16 @@ if memory:
         if thumbnail:
             st.sidebar.image(thumbnail, use_container_width=True)
 
-        if st.sidebar.button(title, key=f"video_button_{i}"):
-            st.session_state.selected_video = video["url"]
+        col1, col2 = st.sidebar.columns([4,1])
+
+        with col1:
+            if st.button(title, key=f"video_button_{i}"):
+                st.session_state.selected_video = video["url"]
+
+        with col2:
+            if st.button("🗑️", key=f"delete_button_{i}"):
+                delete_video_from_memory(video["url"])
+                st.rerun()
 
         st.sidebar.caption(video["date_added"])
         st.sidebar.write("---")
@@ -251,19 +271,14 @@ Detailed Answer:
                 "question": question
             })
 
-           
-
             llm = ChatGroq(
                 model="llama-3.1-8b-instant",
-                temperature=0.3,
-                api_key=st.secrets["GROQ_API_KEY"]
+                temperature=0.1,
+                api_key=GROQ_API_KEY
             )
 
             with st.spinner("Thinking..."):
-
                 answer = llm.invoke(final_prompt)
 
             st.success("✅ Answer")
             st.write(answer.content)
-
-
