@@ -10,7 +10,7 @@ from datetime import datetime
 from yt_dlp import YoutubeDL
 from dotenv import load_dotenv
 
-from langchain_text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_core.prompts import PromptTemplate
@@ -286,4 +286,5 @@ Detailed Answer:
 
             st.success("✅ Answer")
             st.write(answer.content)
+
 
