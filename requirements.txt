@@ -5,6 +5,6 @@ langchain
 langchain-community
 langchain-core
 langchain-groq
+langchain-text-splitters
 faiss-cpu
 sentence-transformers
-huggingface-hub
