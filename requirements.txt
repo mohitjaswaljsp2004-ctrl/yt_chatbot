@@ -1,11 +1,10 @@
 streamlit
 yt-dlp
+python-dotenv
 langchain
 langchain-community
 langchain-core
 langchain-groq
-faiss-cpu==1.13.2
+faiss-cpu
 sentence-transformers
 huggingface-hub
-RecursiveCharacterTextSplitter
-
